@@ -1,0 +1,30 @@
+@(movieForm: Form[MovieData])(implicit request: MessagesRequestHeader, flash: Flash)
+
+@main("Create Journal") {
+@helper.form(action = routes.HomeController.addMovieForm()) {
+@helper.CSRF.formField
+<div class="form_container">
+    <fieldset class="form-group">
+        <legend class="border-bottom mb-4 add_movie_title"> Add New Movie </legend>
+        <div class="form-row">
+            <div class="form-group col-md-8">
+                @helper.inputText(movieForm("Title"))
+            </div>
+
+            <div class="form-group col-md-4">
+                @helper.inputText(movieForm("Year"))
+            </div>
+        </div>
+
+        <div class="form-group">
+            @helper.inputText(movieForm("Director"))
+        </div>
+    </fieldset>
+
+    <div class="form-actions">
+        <button type="submit" class="btn my_button">Submit</button>
+    </div>
+
+</div>
+}
+}

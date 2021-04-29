@@ -1,0 +1,17 @@
+@import models.Tables.JournalRow
+
+@(journals: Seq[JournalRow])
+
+@main("Movie Journal") {
+<div class="movies_container">
+    @for(row <- journals) {
+    <div class="card movie_card" id="bright"><a href="@routes.HomeController.journal(row.id)">
+        <div class="card-body">
+            <h5 class="movie_card_title">@row.title</h5>
+            <p class="movie_year">@row.year, @row.director</p>
+        </div>
+    </a></div>
+    }
+</div>
+}
+

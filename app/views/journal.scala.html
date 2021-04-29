@@ -1,0 +1,69 @@
+@import models.Tables.JournalRow
+@import models.Tables.EntriesRow
+
+@(form: Form[EntryData], movie: JournalRow, entriesSeq: Seq[EntriesRow])(implicit request: MessagesRequestHeader, flash: Flash)
+
+@main("Movie Journal") {
+<div>
+    <div class="row" style="margin: 3rem">
+        <div class="col card mb-3" style="max-width: 540px; border:none;">
+            <div class="row no-gutters">
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h5 class="card-title">@movie.title</h5>
+                        <p class="card-text">@movie.year</p>
+                        <p class="card-text">@movie.director</p>
+                        <p class="card-text"><small class="text-muted">Journal created - placeholderTime</small></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @helper.form(action = routes.HomeController.addEntryForm(movie.id)) {
+        @helper.CSRF.formField
+        <form class="col" style="" action="#" method="POST" enctype="multipart/form-data">
+            <div class="form-group">
+                @helper.inputText(form("Entry"))
+            </div>
+            <div class="form-actions">
+                <button type="submit" class="btn my_button">Submit</button>
+            </div>
+        </form>
+        }
+    </div>
+
+    <a href="@routes.HomeController.deleteJournal(movie.id)"><button type="button" class="btn btn-outline-danger btn-sm">Delete Journal</button></a>
+    <a href="@routes.HomeController.deleteEntries(movie.id)"><button type="button" class="btn btn-outline-danger btn-sm">Delete Entries</button></a>
+
+    <div class="journal_entries border-top mb-4">
+        <!-- NOTICE: DATA LABELS WERE SWITCHED [0,1,2]->[2,1,0] -->
+        @for(entry <- entriesSeq) {
+        @if(entry.sentiment == 2) {
+        <div class="card border-success mb-3 entry" style="">
+            <div class="card-body text-success">
+                <h5 class="card-title">Positive Entry</h5>
+                <h6 class="card-subtitle mb-4 text-muted" style="font-size: 0.7rem">placeholderTime</h6>
+                <p class="card-text">@entry.entry</p>
+            </div>
+        </div>
+        } else if (entry.sentiment == 1) {
+        <div class="card border-secondary mb-3 entry" style="">
+            <div class="card-body text-secondary">
+                <h5 class="card-title">Neutral Entry</h5>
+                <h6 class="card-subtitle mb-4 text-muted" style="font-size: 0.7rem">placeholderTime</h6>
+                <p class="card-text">@entry.entry</p>
+            </div>
+        </div>
+        } else {
+        <div class="card border-danger mb-3 entry" style="">
+            <div class="card-body text-danger">
+                <h5 class="card-title">Negative Entry</h5>
+                <h6 class="card-subtitle mb-4 text-muted" style="font-size: 0.7rem">placeholderTime</h6>
+                <p class="card-text">@entry.entry</p>
+            </div>
+        </div>
+        }
+        }
+    </div>
+</div>
+}

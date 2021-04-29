@@ -1,0 +1,3 @@
+CREATE USER jyk WITH PASSWORD 'password';
+
+CREATE DATABASE journals WITH OWNER=jyk;
